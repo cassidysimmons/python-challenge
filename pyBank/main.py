@@ -51,16 +51,16 @@ with open(csvpath) as csvfile:
     next(csvreader)
 
     netlist = []
-    firstrow = next(csvreader)
-    prevnet = int(firstrow[1])
+    next = next(csvreader)
+    intnext = int(next[1])
 
     for col in csvreader:
-        change = int(col[1]) - prevnet
+        change = int(col[1]) - intnext
         netlist += [change]
         increase = max(netlist)
         decrease = min(netlist)
 
-    averagechange = sum(netlist) / len(netlist)
+    averagechange = sum(netlist)/ len(netlist)
     print(averagechange)
 
 
