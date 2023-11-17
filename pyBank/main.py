@@ -13,11 +13,17 @@ with open(csvpath) as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
 
+    output = []
+
+
+    output.append("financial analysis")
     print("financial analysis")
+    output.append("----------------------------------------")
     print("----------------------------------------")
 
 # print the number of months (rows) in the file
     months = (len(list(csvreader)))
+    output.append(("total months:" , months))
     print("total months:" , months)
 
 # start back at row one...
@@ -31,6 +37,7 @@ with open(csvpath) as csvfile:
 
         total += int(col[1])
     print("total: $" , total)
+    output.append(("total: $" , total))
 # ============================================================
 
 # start back to row 1...
@@ -45,28 +52,37 @@ with open(csvpath) as csvfile:
 
     change = int(lastrow) - int(firstrow)
     print("average change: $" , round(change / 85, 2))
+    output.append(("average change: $" , round(change / 85, 2)))
 # ==============================================================
 
     csvfile.seek(0)
     next(csvreader)
 
     netlist = []
-    next = next(csvreader)
-    intnext = int(next[1])
+    hello = next(csvreader)
+    intnext = int(hello[1])
 
-    for col in csvreader:
-        change = int(col[1]) - intnext
+    for row in csvreader:
+        change = int(row[1]) - intnext
+        intnext = int(row[1])
         netlist += [change]
-        increase = max(netlist)
-        decrease = min(netlist)
 
     averagechange = sum(netlist)/ len(netlist)
-    print(averagechange)
+
+    increase = max(netlist)
+    decrease = min(netlist)
 
 
 # =============================================================
 
     print("greatest increase in profits:", increase)
     print("greatest decrease in profits:", decrease)
+    output.append(("greatest increase in profits:", increase))
+    output.append(("greatest decrease in profits:", decrease))
 
+# need to append to output list
+file = open(os.path.join("analysis", "pyBank analysis.txt"), "w")
 
+for o in output:
+    print(o)
+    file.write (str(o) + "\n")
